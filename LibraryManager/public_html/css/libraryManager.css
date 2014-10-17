@@ -4,3 +4,9 @@
     font-size: 22px;
     text-align: center;
 }
+
+.main-content {
+    width: 83%;
+    display: inline-block;
+    float: right;
+}
