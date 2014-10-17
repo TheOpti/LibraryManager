@@ -13,7 +13,7 @@ angular.module('lm.books', [
                     templateUrl: 'application/books/books.html'
                 })
                 .state('books.list', {
-                    url: '',
+                    url: '/books/list/{init}',
                     views: {
                         '': {
                             templateUrl: 'application/books/books.html'
@@ -31,7 +31,7 @@ angular.module('lm.books', [
                             templateUrl: 'application/books/books.html'
                         },
                         'detail@books': {
-                            templateUrl: 'app/books/books.edit.html',
+                            templateUrl: 'application/books/books.edit.html',
                             controller: 'BooksEditCtrl'
                         }
                     }
@@ -42,7 +42,7 @@ angular.module('lm.books', [
                         '': {
                             templateUrl: 'application/books/books.html'
                         },
-                        'new@acquirers': {
+                        'new@books': {
                             templateUrl: 'application/books/books.new.html',
                             controller: 'BooksNewCtrl'
                         }
@@ -54,7 +54,7 @@ angular.module('lm.books', [
                         '': {
                             templateUrl: 'application/books/books.html'
                         },
-                        'edit@acquirers': {
+                        'edit@books ': {
                             templateUrl: 'application/books/books.edit.html',
                             controller: 'BooksEditCtrl'
                         }
@@ -65,6 +65,9 @@ angular.module('lm.books', [
 
 .controller('BooksListCtrl', ['$scope', '$state',
     function($scope, $state) {
+        
+        var i = 2;
+        i = 3;
         
     }
 ])

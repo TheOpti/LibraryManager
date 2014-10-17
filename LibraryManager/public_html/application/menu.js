@@ -3,20 +3,22 @@ angular.module('menu', [
     'ui.router',
 ])
 
-controllers.controller('MenuCtrl', ['$scope', '$state', 
+controllers.controller('MainMenuCtrl', ['$scope', '$state', 
     function($scope, $state) {
+        
+        $scope.activeItem = '';
         
         // change state and go to a new view
         $scope.navigateTo = function(navTo) {
-            $scope.sections.forEach(function (item) {
-                if(item.state === $scope.aciveItem) {
-                    item.active = false;
+            $scope.sections.forEach(function (section) {
+                if(section.state === $scope.activeItem) {
+                    section.active = false;
                 }
-                if (item.state === navTo) {
-                    item.active = true;
+                if (section.state === navTo) {
+                    section.active = true;
                 }
             });
-            $scope.aciveItem = navTo;
+            $scope.activeItem = navTo;
             $state.go(navTo, {init: true});
         };
         
@@ -31,19 +33,18 @@ controllers.controller('MenuCtrl', ['$scope', '$state',
             {
                 active: false,
                 name : "Books",
-                state : 'books'
+                state : 'books.list'
             },
             {
                 active: false,
                 name : "PDF Collection",
-                state : 'pdfCollection'
+                state : 'pdfCollection.list'
             },
             {
                 active: false,
                 name : "About",
-                state : 'about'
-            },
-            
+                state : 'about.info'
+            },    
         ];
         
         

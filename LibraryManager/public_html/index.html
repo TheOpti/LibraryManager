@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="components/bootstrap/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="components/bootstrap/css/bootstrap-theme.css">
         <link rel="stylesheet" type="text/css" href="css/general.css">
+        <link rel="stylesheet" type="text/css" href="css/libraryManager.css">
 
         <!-- JAVASCRIPT FILES -->
         <script src="components/jquery/jquery-2.1.1.js"></script>
@@ -39,28 +40,21 @@
             </div>
         </div>
 
-        <div class="container-fluid" ng-controller="MenuCtrl">
+        <div class="container-fluid" ng-controller="MainMenuCtrl">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar" >
-                    <p>Menu</p>
+                    <p class="main-menu">Main menu</p>
                     <ul class="nav nav-sidebar">
-                        <li ng-class="{'sc-active' : section.active}" 
+                        <li ng-class="{'active' : section.active}" 
                             ng-repeat="section in sections" 
-                            ng-click="navigateTo(section.state)">
-                            {{section.name}}
-                        </li><a href="#"></a>
-<!--                        <li><a ng-click="navigateTo('main')">Main</a></li>
-                        <li><a ng-click="navigateTo('books')">Books</a></li>
-                        <li><a ng-click="navigateTo('pdfs')">PDF Collection</a></li>
-                        <li><a ng-click="navigateTo('about')">About project</a></li>-->
+                            ng-click="navigateTo(section.state)">   
+                        <a href="#">{{section.name}}</a>
+                        </li>
                     </ul>
                 </div>
-
             </div>
-
-            <div class="mainContent container-fluid" ui-view></div>
-            
         </div>
+        <div class="mainContent container-fluid" ui-view></div>
 
     </body>
 </html>
