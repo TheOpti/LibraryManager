@@ -3,6 +3,12 @@
 var controllers = angular.module('controllers', []);
 
 var libraryManager = angular.module('libraryManager', [
+    'ui.router',
+    
+    
+    'lm.books',
+    'lm.about',
+    'lm.main'
     
 ]);
 
