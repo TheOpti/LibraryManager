@@ -5,6 +5,7 @@ var controllers = angular.module('controllers', []);
 var libraryManager = angular.module('libraryManager', [
     'ui.router',
     
+    'controllers',
     
     'lm.books',
     'lm.about',

@@ -1,10 +1,14 @@
 
+angular.module('menu', [
+    'ui.router',
+])
+
 controllers.controller('MenuCtrl', ['$scope', '$state', 
     function($scope, $state) {
         
         // change state and go to a new view
         $scope.navigateTo = function(navTo) {
-            $scope.items.forEach(function (item) {
+            $scope.sections.forEach(function (item) {
                 if(item.state === $scope.aciveItem) {
                     item.active = false;
                 }
@@ -12,12 +16,10 @@ controllers.controller('MenuCtrl', ['$scope', '$state',
                     item.active = true;
                 }
             });
-            $scope.aciveItem=navTo;
+            $scope.aciveItem = navTo;
             $state.go(navTo, {init: true});
         };
         
-        $scope.test = "TEST";
-    
     
         // menu sections shown in the left side
         $scope.sections = [
