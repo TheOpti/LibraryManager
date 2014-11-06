@@ -28,7 +28,7 @@ controllers.controller('MainMenuCtrl', ['$scope', '$state',
             {
                 active: false,
                 name : "Main",
-                state : 'main'
+                state : 'main.info'
             },
             {
                 active: false,

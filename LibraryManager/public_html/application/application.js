@@ -8,22 +8,8 @@ var libraryManager = angular.module('libraryManager', [
     'controllers',
     
     'lm.books',
+    'lm.pdfCollection',
     'lm.about',
     'lm.main'
     
 ]);
-
-libraryMaganer.config(
-    ['$stateProvider', '$urlRouterProvider',
-        function($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider
-                    .when('/', '/quick')
-                    .otherwise('/');
-
-            $stateProvider
-                    .state('custom', {
-                        url: '/'
-                    });
-        }
-    ]
-)

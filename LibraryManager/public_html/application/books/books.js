@@ -13,7 +13,7 @@ angular.module('lm.books', [
                     templateUrl: 'application/books/books.html'
                 })
                 .state('books.list', {
-                    url: '/books/list/{init}',
+                    url: '/books/list',
                     views: {
                         '': {
                             templateUrl: 'application/books/books.html'
@@ -24,42 +24,42 @@ angular.module('lm.books', [
                         }
                     }
                 })
-                .state('books.details', {
-                    url: '/detail/{id}',
-                    views: {
-                        '': {
-                            templateUrl: 'application/books/books.html'
-                        },
-                        'detail@books': {
-                            templateUrl: 'application/books/books.edit.html',
-                            controller: 'BooksEditCtrl'
-                        }
-                    }
-                })
-                .state('books.new', {
-                    url: '/new',
-                    views: {
-                        '': {
-                            templateUrl: 'application/books/books.html'
-                        },
-                        'new@books': {
-                            templateUrl: 'application/books/books.new.html',
-                            controller: 'BooksNewCtrl'
-                        }
-                    }
-                })
-                .state('books.edit', {
-                    url: '/edit/{id}',
-                    views: {
-                        '': {
-                            templateUrl: 'application/books/books.html'
-                        },
-                        'edit@books ': {
-                            templateUrl: 'application/books/books.edit.html',
-                            controller: 'BooksEditCtrl'
-                        }
-                    }
-                });
+//                .state('books.details', {
+//                    url: '/detail/{id}',
+//                    views: {
+//                        '': {
+//                            templateUrl: 'application/books/books.html'
+//                        },
+//                        'detail@books': {
+//                            templateUrl: 'application/books/books.edit.html',
+//                            controller: 'BooksEditCtrl'
+//                        }
+//                    }
+//                })
+//                .state('books.new', {
+//                    url: '/new',
+//                    views: {
+//                        '': {
+//                            templateUrl: 'application/books/books.html'
+//                        },
+//                        'new@books': {
+//                            templateUrl: 'application/books/books.new.html',
+//                            controller: 'BooksNewCtrl'
+//                        }
+//                    }
+//                })
+//                .state('books.edit', {
+//                    url: '/edit/{id}',
+//                    views: {
+//                        '': {
+//                            templateUrl: 'application/books/books.html'
+//                        },
+//                        'edit@books ': {
+//                            templateUrl: 'application/books/books.edit.html',
+//                            controller: 'BooksEditCtrl'
+//                        }
+//                    }
+//                });
             }
 ])
 
