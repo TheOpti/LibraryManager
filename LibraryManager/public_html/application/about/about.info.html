@@ -1,11 +1,21 @@
 <div class="row">
-    <h1 class="page-header">About project</h1>
-    <p class="lead">Information about my project</p>
-    
-    
-    <p>
-       Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.
-    </p>
-    <!-- TODO opis aplikacji -->
-    
+    <h1 class="page-header">Technologies used in this small project</h1>
+    <div>
+        {{description}}
+    </div>
+</div>
+<div class="row">
+    <h3 class="page-header">Technologies used in this small project</h3>
+</div>
+<div class="row" >
+    <div class="col-md-3" ng-repeat="technology in technologies">
+        <img 
+            src="{{technology.logo}}" 
+            alt="technology.name"
+            style="width: 160px; height: 50px; vertical-align: middle"
+        />
+        <p style="padding-top: 15px;">
+            {{technology.name}} - {{technology.description}}
+        </p>
+    </div>
 </div>

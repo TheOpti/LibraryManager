@@ -1,6 +1,7 @@
 
 angular.module('lm.books', [
     'ui.router',
+    'ngGrid'
 ])
 
 .config(
@@ -66,8 +67,37 @@ angular.module('lm.books', [
 .controller('BooksListCtrl', ['$scope', '$state',
     function($scope, $state) {
         
-        var i = 2;
-        i = 3;
+        $scope.items = [
+            {name: "Moroni", age: 50},
+            {name: "Tiancum", age: 43},
+            {name: "Jacob", age: 27},
+            {name: "Nephi", age: 29},
+            {name: "Enos", age: 34}
+        ];
+        
+        $scope.gridOptions = {
+            data: 'items',
+            columnDefs: [],
+            enableCellSelection: true,
+            enableRowSelection: true,
+            headerRowTemplate: $scope.headerRow,
+            useExternalSorting: true,
+            enablePaging: true,
+            sortInfo: $scope.sortInfo,
+            customKeys: $scope.customKeys,
+            multiSelect: false,
+            selectedItems: []
+        };
+
+        $scope.setGridColumns = function() {
+            var columnDefs = [
+              {field: 'name', displayName: 'Username'},
+              {field: 'age', displayName: 'User age'}
+            ];
+            $scope.gridOptions.columnDefs = columnDefs;
+        };
+        
+        $scope.setGridColumns();
         
     }
 ])

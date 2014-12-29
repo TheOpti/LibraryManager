@@ -13,7 +13,7 @@ angular.module('lm.main', [
                     templateUrl: 'application/main/main.html'
                 })
                 .state('main.info', {
-                    url: '/main',
+                    url: '/',
                     views: {
                         '': {
                             templateUrl: 'application/main/main.html'
