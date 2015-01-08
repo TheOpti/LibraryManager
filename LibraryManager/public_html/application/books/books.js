@@ -69,6 +69,7 @@ angular.module('lm.books', [
     function($resource) {
         return $resource('http://localhost:8080/api/books/:type:id', {}, {
             getBooks: {method: 'GET', headers: {'Content-Type': 'application/json'}, isArray: true},
+            getBookById: {method: 'GET', params: {id: ''}},
             addBook: {method: 'POST', params: {id: ''}, isArray: false},
             editBook: {method: 'PUT', params: {id: ''}, isArray: false},
             deleteBook: {method: 'DELETE', params: {id: ''}, isArray: false}
@@ -76,8 +77,8 @@ angular.module('lm.books', [
     }
 ])
 
-.controller('BooksListCtrl', ['$scope', '$state', 'BooksService',
-    function($scope, $state, BooksService) {
+.controller('BooksListCtrl', ['$scope', '$state', 'BooksService', '$modal',
+    function($scope, $state, BooksService, $modal) {
         
         $scope.books = [];
         $scope.cellTemplate = './cellTemplate.html';
@@ -90,15 +91,18 @@ angular.module('lm.books', [
             {name: "Enos", age: 34}
         ];
         
+        $scope.setColumns = function() {
+            return [
+                {field: 'author', displayName: 'Author'},
+                {field: 'name', displayName: 'Name'},
+                {field: 'description', displayName: 'Description'},
+                {field: 'isRead', displayName: 'Is read?'}
+            ];
+        };
+        
         $scope.gridOptions = {
             data: 'books',
-            columnDefs: 
-                    [
-                        {field: 'author', displayName: 'Author'},
-                        {field: 'name', displayName: 'Name'},
-                        {field: 'description', displayName: 'Description'},
-                        {field: 'isRead', displayName: 'Is read?'}
-                    ],
+            columnDefs: $scope.setColumns(),
             enableCellSelection: false,
             enableRowSelection: true,
             useExternalSorting: true,
@@ -106,7 +110,7 @@ angular.module('lm.books', [
             multiSelect: false,
             selectedItems: []
         };
-
+        
         $scope.getBooks = function() {
             BooksService.getBooks({}, function(resp) {
                 $scope.books = resp;
@@ -118,15 +122,27 @@ angular.module('lm.books', [
         };
         
         $scope.showDetails = function(itemId) {
-            $state.go('books.details', {id: itemId[0]._id});
+            if (itemId.length > 0) {
+                $state.go('books.details', {id: itemId[0]._id});
+            }
         };
         
         $scope.editSelected = function(itemId) {
-            $state.go('books.edit', {id: itemId[0]._id});
+            if (itemId.length > 0) {
+                $state.go('books.edit', {id: itemId[0]._id});
+            }
         };
         
-        $scope.deleteSelected = function(itemId) {
-            // TODO delete 
+        $scope.deleteBook = function(itemId) {
+            var modalInstance = $modal.open({
+                templateUrl: "application/books/modal.confirmDelete.html",
+                controller: 'ConfirmDeleteModalCtrl'
+            });
+            modalInstance.result.then(function() {
+                BooksService.deleteBook({id: itemId[0]._id}, function(resp) {
+                    $scope.books = $scope.getBooks();
+                });
+            }, null);
         };
         
         $scope.getBooks();
@@ -139,11 +155,21 @@ angular.module('lm.books', [
         $scope.readOnly = $state.current.name === 'books.details';
         $scope.newMode = $state.current.name === 'books.new';
         
+        $scope.book = {};
+        
+        $scope.loadBook = function() {
+            $scope.book = BooksService.getBookById({id: $stateParams.id});
+        };
+        
         $scope.saveNewBook = function() {
-            var i = 5;
             BooksService.addBook({}, $scope.book, function(resp) {
-                var i = 5;
-//                $scope.cancel();
+                $scope.cancel();
+            });
+        };
+        
+        $scope.editBook = function() {
+            BooksService.editBook({id: $stateParams.id}, $scope.book, function(resp) {
+                $scope.cancel();
             });
         };
         
@@ -151,7 +177,25 @@ angular.module('lm.books', [
             $state.go('books.list');
         };
         
+        if(!$scope.newMode) {
+            $scope.loadBook();
+        }
         
     }
 ])
+
+.controller('ConfirmDeleteModalCtrl', ['$scope', '$modalInstance',
+    function($scope, $modalInstance) {
+
+        $scope.ok = function() {
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+        };
+    }
+])
+
+
 ;
