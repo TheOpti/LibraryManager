@@ -1,6 +1,7 @@
 
 angular.module('lm.books', [
     'ui.router',
+    'ngResource',
     'ngGrid'
 ])
 
@@ -25,47 +26,61 @@ angular.module('lm.books', [
                         }
                     }
                 })
-//                .state('books.details', {
-//                    url: '/detail/{id}',
-//                    views: {
-//                        '': {
-//                            templateUrl: 'application/books/books.html'
-//                        },
-//                        'detail@books': {
-//                            templateUrl: 'application/books/books.edit.html',
-//                            controller: 'BooksEditCtrl'
-//                        }
-//                    }
-//                })
-//                .state('books.new', {
-//                    url: '/new',
-//                    views: {
-//                        '': {
-//                            templateUrl: 'application/books/books.html'
-//                        },
-//                        'new@books': {
-//                            templateUrl: 'application/books/books.new.html',
-//                            controller: 'BooksNewCtrl'
-//                        }
-//                    }
-//                })
-//                .state('books.edit', {
-//                    url: '/edit/{id}',
-//                    views: {
-//                        '': {
-//                            templateUrl: 'application/books/books.html'
-//                        },
-//                        'edit@books ': {
-//                            templateUrl: 'application/books/books.edit.html',
-//                            controller: 'BooksEditCtrl'
-//                        }
-//                    }
-//                });
+                .state('books.details', {
+                    url: '/detail/{id}',
+                    views: {
+                        '': {
+                            templateUrl: 'application/books/books.html'
+                        },
+                        'detail@books': {
+                            templateUrl: 'application/books/books.new.html',
+                            controller: 'BooksEditCtrl'
+                        }
+                    }
+                })
+                .state('books.new', {
+                    url: '/new',
+                    views: {
+                        '': {
+                            templateUrl: 'application/books/books.html'
+                        },
+                        'new@books': {
+                            templateUrl: 'application/books/books.new.html',
+                            controller: 'BooksEditCtrl'
+                        }
+                    }
+                })
+                .state('books.edit', {
+                    url: '/edit/{id}',
+                    views: {
+                        '': {
+                            templateUrl: 'application/books/books.html'
+                        },
+                        'edit@books': {
+                            templateUrl: 'application/books/books.new.html',
+                            controller: 'BooksEditCtrl'
+                        }
+                    }
+                });
             }
 ])
 
-.controller('BooksListCtrl', ['$scope', '$state',
-    function($scope, $state) {
+.factory('BooksService', ['$resource',
+    function($resource) {
+        return $resource('http://localhost:8080/api/books/:type:id', {}, {
+            getBooks: {method: 'GET', headers: {'Content-Type': 'application/json'}, isArray: true},
+            addBook: {method: 'POST', params: {id: ''}, isArray: false},
+            editBook: {method: 'PUT', params: {id: ''}, isArray: false},
+            deleteBook: {method: 'DELETE', params: {id: ''}, isArray: false}
+        });
+    }
+])
+
+.controller('BooksListCtrl', ['$scope', '$state', 'BooksService',
+    function($scope, $state, BooksService) {
+        
+        $scope.books = [];
+        $scope.cellTemplate = './cellTemplate.html';
         
         $scope.items = [
             {name: "Moroni", age: 50},
@@ -76,40 +91,66 @@ angular.module('lm.books', [
         ];
         
         $scope.gridOptions = {
-            data: 'items',
-            columnDefs: [],
-            enableCellSelection: true,
+            data: 'books',
+            columnDefs: 
+                    [
+                        {field: 'author', displayName: 'Author'},
+                        {field: 'name', displayName: 'Name'},
+                        {field: 'description', displayName: 'Description'},
+                        {field: 'isRead', displayName: 'Is read?'}
+                    ],
+            enableCellSelection: false,
             enableRowSelection: true,
-            headerRowTemplate: $scope.headerRow,
             useExternalSorting: true,
             enablePaging: true,
-            sortInfo: $scope.sortInfo,
-            customKeys: $scope.customKeys,
             multiSelect: false,
             selectedItems: []
         };
 
-        $scope.setGridColumns = function() {
-            var columnDefs = [
-              {field: 'name', displayName: 'Username'},
-              {field: 'age', displayName: 'User age'}
-            ];
-            $scope.gridOptions.columnDefs = columnDefs;
+        $scope.getBooks = function() {
+            BooksService.getBooks({}, function(resp) {
+                $scope.books = resp;
+            });
         };
         
-        $scope.setGridColumns();
+        $scope.add = function() {
+            $state.go('books.new');
+        };
         
+        $scope.showDetails = function(itemId) {
+            $state.go('books.details', {id: itemId[0]._id});
+        };
+        
+        $scope.editSelected = function(itemId) {
+            $state.go('books.edit', {id: itemId[0]._id});
+        };
+        
+        $scope.deleteSelected = function(itemId) {
+            // TODO delete 
+        };
+        
+        $scope.getBooks();
     }
 ])
 
-.controller('BooksEditCtrl', ['$scope', '$state',
-    function($scope, $state) {
+.controller('BooksEditCtrl', ['$scope', '$state', '$stateParams', 'BooksService',
+    function($scope, $state, $stateParams, BooksService) {
         
-    }
-])
-
-.controller('BooksNewCtrl', ['$scope', '$state',
-    function($scope, $state) {
+        $scope.readOnly = $state.current.name === 'books.details';
+        $scope.newMode = $state.current.name === 'books.new';
+        
+        $scope.saveNewBook = function() {
+            var i = 5;
+            BooksService.addBook({}, $scope.book, function(resp) {
+                var i = 5;
+//                $scope.cancel();
+            });
+        };
+        
+        $scope.cancel = function() {
+            $state.go('books.list');
+        };
+        
         
     }
 ])

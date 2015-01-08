@@ -1,3 +1,84 @@
-<div>
-    books.new
+<div class="row">
+    <h1 class="page-header">Add new book:</h1>
+</div>
+<div class="row">
+    <form name="newBookForm" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"> Title of a new book: </label>
+            <div class="col-sm-7">
+               <span class="block input-icon input-icon-right">
+                    <input type="text" 
+                           class="form-control" 
+                           placeholder="Title" 
+                           name="email" 
+                           ng-model="book.name" 
+                           required 
+                           focus
+                        />
+                    <i class="ace-icon fa fa-user"></i>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" for="password"> Author: </label>
+            <div class="col-sm-7">
+               <span class="block input-icon input-icon-right">
+                    <input type="text" 
+                           class="form-control" 
+                           placeholder="Author" 
+                           ng-model="book.author" 
+                           required
+                        />
+                    <i class="ace-icon fa fa-lock"></i>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"> Description: </label>
+            <div class="col-sm-7">
+               <span class="block input-icon input-icon-right">
+                    <input type="text" 
+                           class="form-control" 
+                           placeholder="Description" 
+                           ng-model="book.description" 
+                           required
+                        />
+                    <i class="ace-icon fa fa-lock"></i>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right"> Is read? </label>
+            <div class="col-sm-7">
+               <span class="block input-icon input-icon-right">
+                    <input type="checkbox"
+                           ng-model="book.isRead" 
+                        />
+                    <i class="ace-icon fa fa-lock"></i>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="clearfix">
+    <div class="row">
+        <label class="col-sm-3 control-label no-padding-right">  </label>
+            <div class="col-sm-3">
+                <button type="button" class="btn btn-default"
+                        ng-click="cancel()" 
+                        >
+                    <i class="ace-icon fa fa-key"></i>
+                    Cancel
+                </button>
+            </div>
+            <div class="col-sm-3">
+                <button type="submit" class="btn btn-default"
+                        ng-click="saveNewBook()" 
+                        ng-disabled="newBookForm.$invalid"
+                        >
+                    <i class="ace-icon fa fa-key"></i>
+                    Save new book
+                </button>
+            </div>
+    </div>
 </div>

@@ -3,13 +3,13 @@
 </div>
 <div class="row">
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default">
+        <button type="button" class="btn btn-default" ng-click="showDetails(gridOptions.selectedItems)">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Show details
         </button>
-        <button type="button" class="btn btn-default">
+        <button type="button" class="btn btn-default" ng-click="add()">
             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add new
         </button>
-        <button type="button" class="btn btn-default">
+        <button type="button" class="btn btn-default" ng-click="editSelected(gridOptions.selectedItems)">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Edit selected
         </button>
         <button type="button" class="btn btn-default">
