@@ -1,7 +1,16 @@
 <div class="row">
     <h1 class="page-header">PDF Collection</h1>
-    <p class="lead">Books you have stored as .PDF files</p>
-    
-    <!-- TODO opis aplikacji -->
-    
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" ng-click="downloadSelected(gridOptions.selectedItems)">
+            <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download selected
+        </button>
+        <button type="button" class="btn btn-default" ng-click="uploadPDF()">
+            <span class="glyphicon glyphicon-open" aria-hidden="true"></span> Upload book
+        </button>
+    </div>
+</div>
+<div class="row" style="padding-top: 20px; ">
+    <div style="margin: 0 auto; width: 100%; display: inline-block;">
+        <div class="gridStyle" style="width: 98%;" ng-grid="gridOptions"></div>
+    </div>
 </div>

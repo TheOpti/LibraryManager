@@ -1,6 +1,8 @@
 
 angular.module('lm.pdfCollection', [
     'ui.router',
+    'ngGrid',
+    'base64',
 ])
 
 .config(
@@ -63,11 +65,56 @@ angular.module('lm.pdfCollection', [
             }
 ])
 
-.controller('PdfCollectionListCtrl', ['$scope', '$state',
-    function($scope, $state) {
+.factory('PdfFilesService', ['$resource',
+    function($resource) {
+        return $resource('http://localhost:8080/api/pdf/:filename', {}, {
+            getListOfPDF: {method: 'GET', headers: {'Content-Type': 'application/json'}, isArray: true},
+            downloadBook: {method: 'GET', params: {filename: ''}, headers: {'Content-Type': 'application/json'}, isArray: true}
+        });
+    }
+])
+
+.controller('PdfCollectionListCtrl', ['$scope', '$state', 'PdfFilesService', '$base64',
+    function($scope, $state, PdfFilesService, $base64) {
         
-        var i = 2;
-        i = 3;
+        $scope.listOfPDF = [];
+        
+        $scope.setColumns = function() {
+            return [
+                {field: 'name', displayName: 'Title'},
+                {field: 'extension', displayName: 'Extension', width: '10%'},
+            ];
+        };
+        
+        $scope.gridOptions = {
+            data: 'listOfPDF',
+            columnDefs: $scope.setColumns(),
+            enableCellSelection: false,
+            enableRowSelection: true,
+            useExternalSorting: true,
+            enablePaging: true,
+            multiSelect: false,
+            selectedItems: []
+        };
+        
+        $scope.getListOfPDFs = function() {
+            PdfFilesService.getListOfPDF({}, function(resp) {
+                $scope.listOfPDF = resp;
+            });
+        };
+        
+        $scope.downloadSelected = function(filename) {
+            var fullFilename = filename[0].name + '.' + filename[0].extension;
+            PdfFilesService.downloadBook({filename: fullFilename}, function(resp)  {
+                $base64.decode(resp);
+            });
+        };
+        
+        $scope.upload = function() {
+            
+        };
+        
+        $scope.getListOfPDFs();
         
     }
 ])

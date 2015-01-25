@@ -3,8 +3,15 @@
 // =============================================================================
 
 var express    = require('express'); 		// call express
-var app        = express(); 				// define our app using express
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var path = require('path');
+var mime = require('mime');
+
+var path = "./Books";
+
+// =============================================================================
+var app        = express();
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -63,6 +70,34 @@ router.use(function(req, res, next) {
     console.log(getDateTime(), req.method, req.url);
     next();
 });
+
+router.route('/pdf')
+    .get(function(req, res) {
+        console.log(getDateTime(), "GET list of PDF files");
+        var listOfPDFs = [];
+        fs.readdir(path, function (err, files) {
+            if (err) {
+                throw err;
+            }
+            files.forEach(function(item) {
+                listOfPDFs.push(
+                    {
+                        "name" : item.split(".")[0],
+                        "extension" : item.split(".")[1]
+                    }
+                )
+            })
+            res.json(listOfPDFs);
+        })
+    })
+
+router.route('/pdf/:filename')
+    .get(function(req, res) {
+        console.log(getDateTime(), "GET Requesting for download book: " + path + '/' + req.params.filename);
+        var file = __dirname + '/Books/' + req.params.filename;
+        res.download(file); // Set disposition and send it.
+
+    })
 
 // more routes for our API will happen here
 router.route('/books')
