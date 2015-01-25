@@ -1,4 +1,4 @@
-var controllers = angular.module('controllers', []);
+//var controllers = angular.module('controllers', []);
 
 var libraryManager = angular.module('libraryManager', [
     'ui.router',
@@ -6,7 +6,7 @@ var libraryManager = angular.module('libraryManager', [
     'ui.bootstrap.collapse',
     'ui.bootstrap.popover',
     
-    'controllers',
+    'menu',
     
     'lm.books',
     'lm.pdfCollection',

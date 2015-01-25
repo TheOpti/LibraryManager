@@ -3,7 +3,7 @@ angular.module('menu', [
     'ui.router',
 ])
 
-controllers.controller('MainMenuCtrl', ['$scope', '$state', 
+.controller('MainMenuCtrl', ['$scope', '$state', 
     function($scope, $state) {
         
         $scope.activeItem = '';
