@@ -69,7 +69,6 @@ angular.module('lm.pdfCollection', [
     function($resource) {
         return $resource('http://localhost:8080/api/pdf/:filename', {}, {
             getListOfPDF: {method: 'GET', headers: {'Content-Type': 'application/json'}, isArray: true},
-            downloadBook: {method: 'GET', params: {filename: ''}, headers: {'Content-Type': 'application/json'}, isArray: true}
         });
     }
 ])
@@ -100,14 +99,22 @@ angular.module('lm.pdfCollection', [
         $scope.getListOfPDFs = function() {
             PdfFilesService.getListOfPDF({}, function(resp) {
                 $scope.listOfPDF = resp;
+                resp.forEach(function(item) {
+                    var newLink = $("<a />", {
+                        id : item.name,
+                        name : "link",
+                        href : 'http://localhost:8080/api/pdf/' + item.name + '.' + item.extension,
+                        text : item.name,
+                        hidden : true
+                    });
+                    
+                    $("#collection").append(newLink);
+                });
             });
         };
         
         $scope.downloadSelected = function(filename) {
-            var fullFilename = filename[0].name + '.' + filename[0].extension;
-            PdfFilesService.downloadBook({filename: fullFilename}, function(resp)  {
-                $base64.decode(resp);
-            });
+            document.getElementById(filename[0].name).click();
         };
         
         $scope.upload = function() {
