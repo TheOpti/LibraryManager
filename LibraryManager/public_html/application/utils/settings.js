@@ -1,9 +1,6 @@
 var settings = 
 {
-    // TODO settings
-    backend : {
-        backendAddress : ''
-    }
+    backendAddress : 'http://localhost:8080/api/'
 
 
 }

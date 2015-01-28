@@ -5,11 +5,11 @@
 var express     = require('express'); 		// call express
 var bodyParser  = require('body-parser');
 var fs          = require('fs');
-var busboy      = require('connect-busboy');
+var multer      = require('multer');
 var path        = require('path');
 var mime        = require('mime');
 
-var path = "./Books";
+var path = "./books";
 
 // =============================================================================
 var app        = express();
@@ -18,20 +18,15 @@ var app        = express();
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(busboy());
 
-app.post('/fileupload', function(req, res) {
-    var fstream;
-    req.pipe(req.busboy);
-    req.busboy.on('file', function (fieldname, file, filename) {
-        console.log("Uploading: " + filename);
-        fstream = fs.createWriteStream(__dirname + '/files/' + filename);
-        file.pipe(fstream);
-        fstream.on('close', function () {
-            res.redirect('back');
-        });
-    });
-});
+app.use(multer(
+    {
+        dest: './books/',
+        rename: function (fieldname, filename) {
+            return filename;
+        }
+    }
+))
 
 var port = process.env.PORT || 8080; 		// set our port
 
@@ -105,6 +100,11 @@ router.route('/pdf')
             res.json(listOfPDFs);
         })
     })
+    .post([ multer({ dest: './books/'}), function(req, res) {
+        console.log(req.body) // form fields
+        console.log(req.files) // form files
+        res.status(204).end()
+    }]);
 
 router.route('/pdf/:filename')
     .get(function(req, res) {

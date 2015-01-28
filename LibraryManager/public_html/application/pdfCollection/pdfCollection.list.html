@@ -5,13 +5,14 @@
             <button type="button" class="btn btn-default" ng-click="downloadSelected(gridOptions.selectedItems)">
                 <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download selected
             </button>
-<!--            <span class="btn btn-default btn-file">
-                <span class="glyphicon glyphicon-open" aria-hidden="true"></span> Choose a book... <input type="file">
-            </span>-->
             <div class="input-group">
                 <span class="input-group-btn">
                     <span class="btn btn-primary btn-file">
-                        Browse&hellip; <input type="file" multiple>
+                        Browse&hellip; 
+                        <input 
+                            onchange="angular.element(this).scope().filesChanged(this)"
+                            type="file" 
+                        >
                     </span>
                 </span>
                 <input type="text" class="form-control" readonly>
@@ -24,7 +25,6 @@
         </button>
     </div>
     <div class="col-md-4">
-        
     </div>
 </div>
 <div class="row" style="padding-top: 20px; ">

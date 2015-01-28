@@ -67,7 +67,7 @@ angular.module('lm.books', [
 
 .factory('BooksService', ['$resource',
     function($resource) {
-        return $resource('http://localhost:8080/api/books/:type:id', {}, {
+        return $resource(settings.backendAddress + 'books/:type:id', {}, {
             getBooks: {method: 'GET', headers: {'Content-Type': 'application/json'}, isArray: true},
             getBookById: {method: 'GET', params: {id: ''}},
             addBook: {method: 'POST', params: {id: ''}, isArray: false},

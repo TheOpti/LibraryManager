@@ -2,7 +2,6 @@
 angular.module('lm.pdfCollection', [
     'ui.router',
     'ngGrid',
-    'base64',
 ])
 
 .config(
@@ -67,14 +66,30 @@ angular.module('lm.pdfCollection', [
 
 .factory('PdfFilesService', ['$resource',
     function($resource) {
-        return $resource('http://localhost:8080/api/pdf/:filename', {}, {
+        return $resource(settings.backendAddress + 'pdf/:filename', {}, {
             getListOfPDF: {method: 'GET', headers: {'Content-Type': 'application/json'}, isArray: true},
+//            uploadPDF: {method: 'POST', fd : '@fd' ,headers: {'Content-Type': undefined, transformRequest: angular.identity}, isArray: true},
         });
     }
 ])
 
-.controller('PdfCollectionListCtrl', ['$scope', '$state', 'PdfFilesService', '$base64',
-    function($scope, $state, PdfFilesService, $base64) {
+.controller('PdfCollectionListCtrl', ['$scope', '$state', 'PdfFilesService', '$http', '$timeout',
+    function($scope, $state, PdfFilesService, $http, $timeout) {
+        
+        $scope.file = {};
+        
+        $(document).ready( function() {
+            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if( log ) alert(log);
+                }
+            });
+        });
         
         $scope.listOfPDF = [];
         
@@ -117,8 +132,32 @@ angular.module('lm.pdfCollection', [
             document.getElementById(filename[0].name).click();
         };
         
-        $scope.upload = function() {
-            
+        $scope.filesChanged = function(elm) {
+            $scope.files = elm.files;
+            $scope.$apply();
+        };
+        
+        $scope.uploadFile = function() {
+            var fd = new FormData();
+            angular.forEach($scope.files, function(file) {
+                fd.append('file', file)
+            });
+//            PdfFilesService.uploadPDF({fd : fd}, function(resp) {
+//                
+//            }) 
+            $http.post('http://localhost:8080/pdf', fd, 
+            {
+                transformRequest: angular.identity,
+                headers:{'Content-Type': undefined}
+            })
+                .success(function(resp) {
+                    
+                });
+        
+                $timeout(function() {
+                    $scope.getListOfPDFs();
+                }, 1000);
+        
         };
         
         $scope.getListOfPDFs();
