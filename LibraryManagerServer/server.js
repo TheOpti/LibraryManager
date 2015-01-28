@@ -2,11 +2,12 @@
 // BASE SETUP
 // =============================================================================
 
-var express    = require('express'); 		// call express
-var bodyParser = require('body-parser');
-var fs = require('fs');
-var path = require('path');
-var mime = require('mime');
+var express     = require('express'); 		// call express
+var bodyParser  = require('body-parser');
+var fs          = require('fs');
+var busboy      = require('connect-busboy');
+var path        = require('path');
+var mime        = require('mime');
 
 var path = "./Books";
 
@@ -17,6 +18,20 @@ var app        = express();
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(busboy());
+
+app.post('/fileupload', function(req, res) {
+    var fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+        console.log("Uploading: " + filename);
+        fstream = fs.createWriteStream(__dirname + '/files/' + filename);
+        file.pipe(fstream);
+        fstream.on('close', function () {
+            res.redirect('back');
+        });
+    });
+});
 
 var port = process.env.PORT || 8080; 		// set our port
 
@@ -98,6 +113,8 @@ router.route('/pdf/:filename')
         res.download(file); // Set disposition and send it.
 
     })
+
+
 
 // more routes for our API will happen here
 router.route('/books')
