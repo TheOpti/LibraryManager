@@ -125,15 +125,19 @@ angular.module('lm.books', [
         };
         
         $scope.deleteBook = function(itemId) {
-            var modalInstance = $modal.open({
-                templateUrl: "application/books/modal.confirmDelete.html",
-                controller: 'ConfirmDeleteModalCtrl'
-            });
-            modalInstance.result.then(function() {
-                BooksService.deleteBook({id: itemId[0]._id}, function(resp) {
-                    $scope.books = $scope.getBooks();
+            if (itemId.length === 0) {
+                return;
+            } else {
+                var modalInstance = $modal.open({
+                    templateUrl: "application/books/modal.confirmDelete.html",
+                    controller: 'ConfirmDeleteModalCtrl'
                 });
-            }, null);
+                modalInstance.result.then(function() {
+                    BooksService.deleteBook({id: itemId[0]._id}, function(resp) {
+                        $scope.books = $scope.getBooks();
+                    });
+                }, null);
+            }
         };
         
         $scope.getBooks();
