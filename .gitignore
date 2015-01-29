@@ -1,4 +1,6 @@
 /LibraryManager/nbproject/private/
 /LibraryManagerServer/controllers/books
 /LibraryManagerServer/.idea/workspace.xml
-./npm-debug.txt
+./npm-debug.log
+.idea
+.gitignore
