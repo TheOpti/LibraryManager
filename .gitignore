@@ -1,3 +1,4 @@
 /LibraryManager/nbproject/private/
-/LibraryManagerServer/books
+/LibraryManagerServer/controllers/books
 /LibraryManagerServer/.idea/workspace.xml
+./npm-debug.txt
