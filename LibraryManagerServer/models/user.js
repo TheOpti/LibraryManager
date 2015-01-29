@@ -7,7 +7,9 @@ var UserSchema = new Schema({
     login : String,
     password : String,
     email : String,
-    registeredSince : new Date()
+    registeredSince : new Date(),
+    role : String,
+    booksAdded : Number
 });
 
-module.exports = mongoose.model('Book', BookSchema);
+module.exports = mongoose.model('User', UserSchema);
