@@ -8,16 +8,15 @@ var fs          = require('fs');
 var multer      = require('multer');
 var path        = require('path');
 var mime        = require('mime');
+var morgan      = require('morgan');
 
 var path = "./books";
 
 // =============================================================================
 var app        = express();
-
-// configure app to use bodyParser()
-// this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 
 app.use(multer(
     {
@@ -66,24 +65,15 @@ function getDateTime() {
     return dateTime;
 }
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
-});
-
-
 router.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'content-Type,x-requested-with');
-
-    console.log(getDateTime(), req.method, req.url);
     next();
 });
 
 router.route('/pdf')
     .get(function(req, res) {
-        console.log(getDateTime(), "GET list of PDF files");
         var listOfPDFs = [];
         fs.readdir(path, function (err, files) {
             if (err) {
@@ -100,18 +90,16 @@ router.route('/pdf')
             res.json(listOfPDFs);
         })
     })
-    .post([ multer({ dest: './books/'}), function(req, res) {
-        console.log(req.body) // form fields
-        console.log(req.files) // form files
-        res.status(204).end()
-    }]);
+    .post([ multer({ dest: './books/'}),
+        function(req, res) {
+            res.status(204).end()
+        }
+    ]);
 
 router.route('/pdf/:filename')
     .get(function(req, res) {
-        console.log(getDateTime(), "GET Requesting for download book: " + path + '/' + req.params.filename);
         var file = __dirname + '/Books/' + req.params.filename;
         res.download(file); // Set disposition and send it.
-
     })
 
 
@@ -125,13 +113,11 @@ router.route('/books')
         book.author = req.body.author;
         book.isRead = req.body.isRead;
         book.description = req.body.description;
-        console.log(getDateTime(), "Preparing for save new book");
 
         book.save(function(err) {
             if (err)
                 res.send(err);
 
-            console.log(getDateTime(), "Book saved!", " Title: " + book.name);
             res.json({
                 message: 'Book created! ' + book
             });
@@ -167,7 +153,6 @@ router.route('/books/:bookId')
             book.author = req.body.author;
             book.isRead = req.body.isRead;
             book.description = req.body.description;
-            console.log(getDateTime(), "Preparing for edit new book");
 
             book.save(function(err) {
                 if (err)
@@ -180,14 +165,12 @@ router.route('/books/:bookId')
     })
 
     .delete(function(req, res) {
-        console.log(getDateTime(), "Preparing for deleting book");
         Book.remove({
             _id: req.params.bookId
         }, function(err, book) {
             if (err)
                 res.send(err);
 
-            console.log(getDateTime(), "Book deleted!", " _id: " + req.params.bookId);
             res.json({ message: 'Successfully deleted: ' + book});
         });
     });
