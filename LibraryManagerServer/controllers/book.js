@@ -8,8 +8,8 @@ module.exports = (function() {
     router.route('/books')
         .post(function(req, res) {
             //console.log(req.body);
-            var book = new Book(); 		// create a new instance of the Bear model
-            book.name = req.body.name;  // set the bears name (comes from the request)
+            var book = new Book();
+            book.name = req.body.name;
             book.author = req.body.author;
             book.isRead = req.body.isRead;
             book.description = req.body.description;
