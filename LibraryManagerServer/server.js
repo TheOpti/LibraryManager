@@ -9,11 +9,11 @@ multer          = require('multer');
 path            = require('path');
 var mime        = require('mime');
 var morgan      = require('morgan');
-var jwt         = require('jwt-simple');
+jwt         = require('jwt-simple');
 
 // =============================================================================
-var app        = express();
-app.set('jwtTokenSecret', 'YOUR_SECRET_STRING');
+app = express();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
@@ -43,48 +43,23 @@ app.use(function(req, res, next) {
     next();
 });
 
+var utils = require('./utils/utils');
+
+var authorization = require('./utils/authorization');
+
 var bookAPI = require('./controllers/book');
-app.use('/api', bookAPI);
 var pdfAPI = require('./controllers/pdf');
+
+app.use('/', authorization);
+
+app.use(utils.ensureAuthorized);
+
+app.use('/api', bookAPI);
 app.use('/api', pdfAPI);
-
-var User = require('./models/user');
-
-app.post('/login', function(req, res) {
-    var username = req.body.login;
-    var password = req.body.password;
-    validateUser(req, res, username, password);
-});
-
-function validateUser(req, res, username, password) {
-    User.findOne({ login: username }, function(err, user) {
-        console.log(user);
-        if (err || user === null) {
-            console.log("there's no such user");
-            return res.send("error");
-        } else if (user.password === password) {
-
-            var expires = 86400;
-            var token = jwt.encode({
-                iss: user.login,
-                exp: expires
-            }, app.get('jwtTokenSecret'));
-            console.log("everything's ok");
-            return res.json({
-                token : token,
-                expires: expires,
-                user: user.login
-            });
-        }
-
-    });
-}
-
 
 // ------------------------------------
 
-
 // START THE SERVER
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log(utils.getCurrentTime() + ' Magic happens on port ' + port);
 

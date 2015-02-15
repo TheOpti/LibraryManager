@@ -1,13 +1,13 @@
 var express = require('express');
 
 var Book = require('../models/book');
+var utils = require('../utils/utils');
 
 module.exports = (function() {
     var router = express.Router();
 
     router.route('/books')
         .post(function(req, res) {
-            //console.log(req.body);
             var book = new Book();
             book.name = req.body.name;
             book.author = req.body.author;
