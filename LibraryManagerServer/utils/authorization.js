@@ -14,7 +14,9 @@ module.exports = (function() {
             User.findOne({login: username}, function (err, user) {
                 if (err || user === null) {
                     console.log("there's no such user");
-                    return res.send("error");
+                    return res.json({
+                        error: "Incorrect user or password!"
+                    });
                 } else if (user.password === password) {
 
                     var expires = 86400;

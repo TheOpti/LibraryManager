@@ -1,4 +1,3 @@
-//var controllers = angular.module('controllers', []);
 
 var libraryManager = angular.module('libraryManager', [
     'ui.router',
@@ -8,6 +7,7 @@ var libraryManager = angular.module('libraryManager', [
     
     'menu',
     
+    'lm.authorization',
     'lm.books',
     'lm.pdfCollection',
     'lm.about',

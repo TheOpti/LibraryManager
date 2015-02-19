@@ -36,10 +36,12 @@ mongoose.connect('mongodb://localhost:27017/library_manager');
 
 // ROUTES FOR API
 // =============================================================================
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', req.headers.origin || "*");
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'content-Type,x-requested-with');
+app.all('*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Credentials', false);
+    res.header('Access-Control-Max-Age', '86400');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, auth_bearer, authorization123456');
     next();
 });
 
@@ -52,7 +54,7 @@ var pdfAPI = require('./controllers/pdf');
 
 app.use('/', authorization);
 
-app.use(utils.ensureAuthorized);
+//app.use(utils.ensureAuthorized);
 
 app.use('/api', bookAPI);
 app.use('/api', pdfAPI);

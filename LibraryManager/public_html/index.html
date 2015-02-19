@@ -12,7 +12,7 @@
         <link rel="stylesheet" type="text/css" href="css/general.css">
         <link rel="stylesheet" type="text/css" href="css/libraryManager.css">
         <link rel="stylesheet" type="text/css" href="components/ng-grid/ng-grid.css">
-        
+
         <!-- JAVASCRIPT FILES -->
         <script src="components/jquery/jquery-2.1.1.js"></script>
         <script src="components/bootstrap/js/bootstrap.js"></script>
@@ -21,67 +21,63 @@
         <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="components/angular-ui-router/angular-ui-router.min.js"></script>
         <script src="components/angular-resource/angular-resource.min.js"></script>
+        <script src="components/angular-local-storage/angular-local-storage.js"></script>
+        <script src="components/angular-local-storage/angular-local-storage.min.js"></script>
         <script src="components/ng-grid/ng-grid-2.0.11.debug.js"></script>
         <script src="components/ng-grid/ng-grid-layout.min.js"></script>
-        
+
         <script src="application/utils/settings.js"></script>
         <script src="application/utils/domModifications.js"></script>
-        
+
         <script src="application/application.js"></script>
         <script src="application/menu.js"></script>
-        
+
+        <script src="application/authorization/authorization.js"></script>
         <script src="application/books/books.js"></script>
         <script src="application/about/about.js"></script>
         <script src="application/pdfCollection/pdfCollection.js"></script>
         <script src="application/main/main.js"></script>
     </head>
-    
-    <body ng-app="libraryManager" ng-controller="MainMenuCtrl">
 
-        <div ng-show="false">
-            <div ng-include="'application/authorization/login.form.html'" ></div>
-        </div>
-        
-        
-        <div ng-show="true">
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="">Library manager</a>
-                </div>
-                <div class="navbar-collapse collapse" >
-<!--                    <ul class="nav navbar-nav navbar-right">
-                        <li ng-class="{'active' : section.active}" 
-                            ng-repeat="section in sections" 
-                            ng-click="navigateTo(section.state)">   
-                            <a href="#">{{section.name}}</a>
-                        </li>
-                    </ul>-->
+    <body ng-app="libraryManager" ng-controller="AuthorizationCtrl">
+
+            <div ng-show="!isLogged()">
+                <div ng-include="'application/authorization/login.form.html'" ></div>
+            </div>
+            
+            <div ng-show="isLogged()">
+            <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="">Library manager</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="container-fluid" >
-            <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar" >
-                    <p class="main-menu">Main menu</p>
-                    <ul class="nav nav-sidebar">
-                        <li ng-class="{'active' : section.active}" 
-                            ng-repeat="section in sections" 
-                            ng-click="navigateTo(section.state)">   
-                            <a style="cursor: pointer;">{{section.name}}</a>
-                        </li>
-                    </ul>
+            <div class="container-fluid" >
+                <div class="row" ng-controller="MainMenuCtrl">
+                    <div class="col-sm-3 col-md-2 sidebar" >
+                        <p class="main-menu">Main menu</p>
+                        <ul class="nav nav-sidebar">
+                            <li ng-class="{'active' : section.active}" 
+                                ng-repeat="section in sections" 
+                                ng-click="navigateTo(section.state)">   
+                                <a style="cursor: pointer;">{{section.name}}</a>
+                            </li>
+                            <li ng-click="logout()">   
+                                <a style="cursor: pointer;">Log out</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="main-content container-fluid" ui-view></div>
+            <div class="main-content container-fluid" ui-view></div>
         </div>
     </body>
 </html>

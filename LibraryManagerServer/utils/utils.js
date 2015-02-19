@@ -7,6 +7,7 @@ module.exports = (function() {
         try {
             console.log("autoryzacja");
             var token = req.headers['auth_bearer'];
+            console.log("token: " + token);
             var decoded = jwt.decode(token, app.get('jwtTokenSecret'));
             console.log(decoded);
         } catch (err) {
@@ -14,6 +15,7 @@ module.exports = (function() {
             res.send({ error: 'There was an error during token validation' });
         }
 
+        
         if (decoded.exp <= Date.now()) {
             console.log("1:" + decoded.exp );
             console.log("2:" + Date.now() );

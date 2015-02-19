@@ -2,7 +2,6 @@
 /LibraryManager/nbproject/*
 /LibraryManager/test
 /LibraryManagerServer/controllers/books
-/LibraryManagerServer/.idea/workspace.xml
 /LibraryManagerServer/.idea/*
 /LibraryManagerServer/node_modules/*
 ./npm-debug.log
