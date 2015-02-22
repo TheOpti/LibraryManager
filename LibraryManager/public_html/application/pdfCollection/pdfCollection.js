@@ -142,10 +142,7 @@ angular.module('lm.pdfCollection', [
             angular.forEach($scope.files, function(file) {
                 fd.append('file', file)
             });
-//            PdfFilesService.uploadPDF({fd : fd}, function(resp) {
-//                
-//            }) 
-            $http.post('http://localhost:8080/pdf', fd, 
+            $http.post('http://localhost:8080/api/pdf', fd, 
             {
                 transformRequest: angular.identity,
                 headers:{'Content-Type': undefined}

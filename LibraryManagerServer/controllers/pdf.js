@@ -32,6 +32,8 @@ module.exports = (function() {
 
     router.route('/pdf/:filename')
         .get(function(req, res) {
+            console.log("w funkcji");
+            console.log(__dirname);
             var file = __dirname + '/books/' + req.params.filename;
             res.download(file);
         })
