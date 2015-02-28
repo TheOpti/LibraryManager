@@ -1,0 +1,98 @@
+use library_manager;
+
+db.createCollection("books");
+db.createCollection("users");
+
+db.books.insert(
+{
+    "name" : "Node.js in action",
+    "authors" : [
+        "Mike Cantelon",
+        "Marc Harter",
+        "TJ Holowaychuk",
+        "Nathan Rajlich"
+    ],
+    "description" : "Node.js in Action is an example-driven tutorial that starts at square one and guides you through all the features, techniques, and concepts you'll need to build production-quality Node applications. You'll start by learning how to set up your Node development environment, including loading the community-created extensions. Next, you'll run several simple demonstration programs where you'll learn the basics of a few common types of Node applications. Then you'll dive into asynchronous programming, a model Node leverages to lessen application bottlenecks.",
+    "category" : "Computer science",
+    "reviews" : [
+        {
+            "author" : "Adi Bilauca",
+            "review" : "The book is doing a great job describing the fundamentals. It does it correctly and is recommending good practices. Highly recommended for Node.js beginners, but not only.",
+            "rate" : 5
+        },
+        {
+            "author" : "Adi Bilauca",
+            "review" : "Very good introduction to Node.js. The book teaches the basic conceptions of Node.js, frameworks that are used for creating Node.js apps, web applications. \nWhat I think could be better: \n1. More details about Node.js (child processes, creating custom modules).\n 2. The chapters where we create a photo app using Express would be more structured and easier to follow. I would like to be able to download work in progress code from the book website.",
+            "rate" : 4
+        }
+    ]
+}
+);
+
+db.books.insert(
+{
+    "name" : "The C Programming Language",
+    "authors" : [
+        "Brian W. Kernighan",
+        "Dennis M. Ritchie"
+    ],
+    "description" : "This book is meant to help the reader learn how to program in C. It is the definitive reference guide, now in a second edition. Although the first edition was written in 1978, it continues to be a worldwide best-seller. This second edition brings the classic original up to date to include the ANSI standard. ",
+    "category" : "Computer science",
+    "reviews" : [
+        {
+            "author" : "Pedro",
+            "review" : "Great book as a reference for C. If you already know how to program and want to learn C, this is the book. But you must do the exercises: don't read the book; work the book.",
+            "rate" : 5
+        },
+        {
+            "author" : "Manny",
+            "review" : "If you're a geek, you have to prostrate yourself in the direction of Bell Labs whenever this book is mentioned. I'm not really a geek, so it's optional. ",
+            "rate" : 5
+        }
+    ]
+}
+);
+
+db.books.insert(
+{
+    "name" : "Learning Perl",
+    "authors" : [
+        "Randal L. Schwartz",
+        "Tom Phoenix",
+        "Brian D. Foy",
+        "Larry Wall"
+    ],
+    "description" : "Learning Perl, better known as \"the Llama book\", starts the programmer on the way to mastery. Written by three prominent members of the Perl community who each have several years of experience teaching Perl around the world, this edition has been updated to account for all the recent changes to the language up to Perl 5.8.",
+    "category" : "Computer science",
+    "reviews" : [
+        {
+            "author" : "Nick Black",
+            "review" : "A very gentle introduction to Perl. Topics are discussed in detail for the novice and I even noticed that the footnotes are well written and informative. A good place to start your trip in the world of Perl.",
+            "rate" : 4
+        }
+    ]
+}
+);
+
+db.books.insert(
+{
+    "name" : "The First Days",
+    "authors" : [
+        "Rhiannon Frater"
+    ],
+    "description" : "Katie is driving to work one beautiful day when a dead man jumps into her car and tries to eat her. That same morning, Jenni opens a bedroom door to find her husband devouring their toddler son.",
+    "category" : "Horror",
+    "reviews" : [
+        {
+            "author" : "Giselle",
+            "review" : "Zombie stories are my guilty pleasure. They're exciting, full of action, gory, but they terrify me to bits. Surviving a zombie apocalypse is no easy feat. So, as expected, I read this with my heart pounding from start to finish, knowing that these people are most likely doomed no matter what, because zombies always win… always. It was such a rush!!",
+            "rate" : 5
+        }
+    ]
+}
+);
+
+
+
+
+);

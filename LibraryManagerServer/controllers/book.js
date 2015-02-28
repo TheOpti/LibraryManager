@@ -25,7 +25,7 @@ module.exports = (function() {
         })
 
         .get(function(req, res) {
-            Book.find(function(err, books) {
+            Book.find({}, "name description",  function(err, books) {
                 if (err)
                     res.send(err);
 
